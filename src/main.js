@@ -25,10 +25,17 @@
   		this.mChampionNames = {};
   		this.mChampionImageUrls = {};
   		$.each(_DATA_.participants,function(index,value){
-  			var championId = value.championId;
-			$.get("https://global.api.pvp.net/api/lol/static-data/euw/v1.2/champion/" + championId + "?champData=info&api_key=08d1d2cc-79c5-4dc2-9aa1-50b000cfcd20", function( data ) {
-			  that.mChampionNames[championId] = data.key;
-			  that.mChampionImageUrls[championId] = "http://ddragon.leagueoflegends.com/cdn/5.6.1/img/champion/" + data.key + ".png";
+			$.get("https://global.api.pvp.net/api/lol/static-data/euw/v1.2/champion/" + value.championId + "?champData=info&api_key=08d1d2cc-79c5-4dc2-9aa1-50b000cfcd20", function( data ) {
+			  that.mChampionNames[value.participantId] = data.key;
+			  var championImageUrl = "http://ddragon.leagueoflegends.com/cdn/5.6.1/img/champion/" + data.key + ".png";
+			  that.mChampionImageUrls[value.participantId] = championImageUrl;
+			  d3.select(".player_" + value.participantId)
+			  	.append("svg:image")
+	   			.attr('x',-10)
+	   			.attr('y',-10)
+	   			.attr('width', 20)
+	   			.attr('height', 20)
+	   			.attr("xlink:href",championImageUrl);
 			});
   		})
  
@@ -65,7 +72,7 @@
     		return [value];
 		});
 
-  		var oPlayers = this.field.selectAll("circle")
+  		var oPlayers = this.field.selectAll(".player")
   			.data(aPlayersInitial)
   			.enter()
   			.append("g")
