@@ -19,8 +19,8 @@
 
   	setup : function(){
   		var that = this;
-  		this.width = 400;
-  		this.height = 400;
+  		this.width = 800;
+  		this.height = 800;
   		this.x = d3.scale.linear()
   			.domain([0,15000])
   			.range([0, this.width]);
@@ -34,8 +34,16 @@
   		this.svg = d3.select("body").append("svg")
     		.attr("width", this.width)
     		.attr("height", this.height);
-    	this.field = this.svg.append("g")
+  		this.svg.append("svg:image")
+   			.attr('x',-15)
+   			.attr('y',5)
+   			.attr('width', 800)
+   			.attr('height', 800)
+   			.attr("xlink:href","img/map.jpg")
+
+		this.field = this.svg.append("g")
   			.classed(".field", true);
+
   		var aFrames = _DATA_.timeline.frames;
   		var aPlayers = _DATA_.participants;
   		var oPlayersInitial = aFrames[0].participantFrames;
@@ -57,7 +65,7 @@
   		oPlayers.append("circle")
             .attr("x", 7)
             .attr("y", 7)
-            .attr("r", 3)
+            .attr("r", 5)
             .style("fill", function(d){
             	for(var i = 0; i < aPlayers.length; i++){
             		if(aPlayers[i].participantId === d.participantId){
